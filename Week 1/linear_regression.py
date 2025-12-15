@@ -6,6 +6,10 @@ from sklearn.model_selection import train_test_split
 # -------------------------------------------------------------------------------------
 # 1. LOAD DATA
 # -------------------------------------------------------------------------------------
+# Loads data into a Pandas DataFrame
+# Prints column names and first few rows to verify data
+# This is basically sanity checking
+
 df = pd.read_csv("linear_data.csv")
 
 print("\nLoaded columns:", df.columns.tolist())
@@ -15,6 +19,8 @@ print(df.head(), "\n")
 # 2. AUTO-DETECT TARGET COLUMN
 # -------------------------------------------------------------------------------------
 # Assumption: target is the LAST numeric column (common case)
+# Selects only numeric columns, linear regression works only with numbers
+
 numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
 
 if len(numeric_cols) < 2:
@@ -41,6 +47,8 @@ X_train, X_test, y_train, y_test, idx_train, idx_test = train_test_split(
 # -------------------------------------------------------------------------------------
 # 4. NORMALIZATION
 # -------------------------------------------------------------------------------------
+# Features may be on different scales, therefores requires normalisation to make the weights 
+# meaningful
 def normalize(X):
     mean = X.mean(axis=0)
     std = X.std(axis=0)
@@ -103,4 +111,5 @@ plt.grid(True)
 plt.tight_layout()
 plt.legend()
 plt.show()
+
 
