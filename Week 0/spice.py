@@ -33,7 +33,7 @@ def update_labels(distances):
     return np.argmin(distances, axis=1)
 
 ### TODO 4 : M step
-### Update centers
+### Update centers ### calculate the mean and move each center to the mean of the points assigned to it
 def update_centers(data, labels, K):
     return np.array([data[labels == k].mean(axis=0) for k in range(K)])
 
@@ -41,7 +41,7 @@ def update_centers(data, labels, K):
 def check_termination(labels1, labels2):
     return np.array_equal(labels1, labels2)
 
-### DON'T CHANGE ANYTHING BELOW
+### if old labels == new labels, then no point switched clusters and the algorithm has converged
 def kmeans(data_path:str, K:int, init_centers):
     data = load_data(data_path)
     centers = initialise_centers(data, K, init_centers)
@@ -84,3 +84,4 @@ if __name__ == "__main__":
     print('Time taken for the algorithm to converge:', time_taken)
 
     visualise(data_path, labels, centers)
+
