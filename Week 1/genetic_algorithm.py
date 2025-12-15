@@ -3,14 +3,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Constants
-PARAMETER = 10
-LINEAR_REGRESSION_ERROR_RANGE = 3
-ERROR_RANGE = 1.0001
-MUTATION_RATE = 0.1
-NUM_POINTS = 45
-NUM_ELITES = 2
+PARAMETER = 10 # Range for slopes , intercepts, x-values
+LINEAR_REGRESSION_ERROR_RANGE = 3 # Noise in data
+ERROR_RANGE = 1.0001 # Convergence Threshold
+MUTATION_RATE = 0.1 # Probability of mutation
+NUM_POINTS = 45 # Number of data points
+NUM_ELITES = 2 # Best line preserved
 
 # Function 1 (given)
+# Generates x uniformly, adds gaussian noise to y -> simulated real world imperfect daa=ar
 def generate_random_points(num_points, slope, intercept):
     noise = np.random.normal(0, LINEAR_REGRESSION_ERROR_RANGE, num_points)
     x_coords = np.random.uniform(-PARAMETER, PARAMETER, num_points)
@@ -18,12 +19,15 @@ def generate_random_points(num_points, slope, intercept):
     return np.column_stack((x_coords, y_coords))
 
 # Function 2
+# Each line = [slope, intercept]
+# Randomly initialised
 def generate_random_lines(num_lines):
     slopes = np.random.uniform(-PARAMETER, PARAMETER, num_lines)
     intercepts = np.random.uniform(-PARAMETER, PARAMETER, num_lines)
     return np.column_stack((slopes, intercepts))
 
 # Function 3
+# Computes the sum of squared errors for each line
 def calculate_errors(lines, points):
     x = points[:, 0]
     y = points[:, 1]
@@ -36,6 +40,7 @@ def calculate_errors(lines, points):
     return errors
 
 # Function 4
+# Introduce randomness -> avoid local minima
 def mutate(line, mutation_rate=MUTATION_RATE):
     if random.random() < mutation_rate:
         line[0] += np.random.normal(0, 0.1 * abs(line[0]) + 0.01)
@@ -116,3 +121,4 @@ def genetic_algorithm():
 
 # Run
 genetic_algorithm()
+
