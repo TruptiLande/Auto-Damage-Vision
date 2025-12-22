@@ -1,0 +1,64 @@
+Week 2 Problem Set:
+
+Q. Problem 1-Why must data be mean-centered before applying PCA?
+Ans. Mean-centering is essential before applying PCA because PCA is fundamentally about capturing directions of maximum variance, and variance is defined with respect to the mean.
+
+PCA finds new axes (principal components) such that:
+The first component captures the maximum variance
+Each subsequent component captures the maximum remaining variance
+All components are orthogonal
+Variance is always measured around the mean, not around the origin.
+
+If data is not mean centered, the origin is arbitary relative to the data cloud. As a result, the first PCA may point towards the mean of the data. PCA starts capturing location(mean) instead of spread(variance).
+
+Q. Problem 2-PCA preserves variance but not class separability. Explain with an example.
+Ans. PCA preserves variance but not class separability because it is an unsupervised method, it ignores class labels and only looks for directions of maximum overall variance, not directions that best separate classes.
+Variance : how spread out the data is 
+Class Separability : how well different classes are distinguishable 
+A direction with large variance may mix classes heavily, while a direction with small variance may cleanly separate them.
+
+Example 1: Height vs Exam Score (most intuitive)
+Data
+Two classes of students:
+Class 1 (Pass)
+Class 2 (Fail)
+
+Features:
+Height → large variation
+Exam score → small variation
+
+Assume:
+Tall and short students exist in both classes
+Pass/fail is mainly determined by exam score
+
+What PCA sees
+Height has much larger variance
+PCA selects height as PC1
+
+After PCA projection:
+Pass and Fail students overlap heavily
+Class separation is poor
+
+What actually separates classes
+Exam score (low variance but high class separability)
+
+PCA preserves variance (height)
+PCA loses separability (exam score ignored)
+
+Q. Problem 3-t-SNE shows clean clusters, but classifiers perform poorly.
+Explain this paradox using high-dimensional geometry.
+Ans. t-SNE makes data look separable by stretching space for visualization, but the data is still mixed in the original high-dimensional space where the classifier works.
+Why t-SNE shows clean clusters?
+t-SNE:
+Only cares about who is close to whom
+Pushes groups apart to make them visible
+Creates empty space that didn't exist
+It is not showing real distances
+
+Why classifier fails?
+Classifier:
+Trains on original data
+Sees overlapping classes
+Cannot use the fake gaps t-SNE created
+
+t-SNE is for visualization, not for judsing separability.
