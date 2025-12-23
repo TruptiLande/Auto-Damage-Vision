@@ -11,11 +11,13 @@ from tensorflow.keras.datasets import fashion_mnist
 # ===============================
 # Step 1: Load Dataset
 # ===============================
+# Usually the dataset is Train, Test. Here we are taking only train.
 (X_train, y_train), (_, _) = fashion_mnist.load_data()
 
 X = X_train   # images
 y = y_train   # labels
 
+# (number_of_images, image_height, image_width)
 print("Original data shape:", X.shape)  # (60000, 28, 28)
 
 # ===============================
