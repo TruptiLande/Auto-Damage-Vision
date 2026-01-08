@@ -1,0 +1,11 @@
+1. Why is data cleanliness important for training?
+Data cleanliness is the foundation of a reliable model. In this project, cleanliness meant:
+Consistency: Ensuring that every image in our folder has a corresponding entry in the JSON file. If the model tries to read a label for a missing image, the training process will crash.
+Noise Reduction: By selecting a "clean" subset, we avoid blurry or poorly lit images that might confuse the model.
+Accuracy: We ensured the JSON "Address Book" was trimmed. Without this, the model's loss function would be calculated against thousands of missing data points, leading to a model that fails to converge or learn correctly.
+
+2. What could go wrong with bad annotations?
+Since this dataset uses Polygons (coordinates tracing the exact shape) rather than simple bounding boxes, the risks are higher:
+Misalignment: If the all_x and all_y coordinates are shifted even slightly, the model learns to look at healthy car parts instead of the actual damage.
+Label Confusion: As seen in your JSON, there are multiple classes like mop_lom (dent) and tray_son (scratch). If a dent is incorrectly labeled as a scratch, the model will struggle to distinguish between textures and structural deformities.
+Geometric Corruption: In polygon-based detection (Instance Segmentation), if the sequence of points in the JSON is out of order, the resulting shape becomes a "tangled" mess. This makes it impossible for the model to identify the boundaries of the damage.
